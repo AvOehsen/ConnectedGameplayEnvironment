@@ -20,6 +20,8 @@ namespace Cge.Server.Net
         private readonly byte[] _readBuffer = new byte[1024];
         private string _stringBuffer = "";
 
+        internal event Action<NetClient, JObject> MessageSent;
+
         
         public NetClient(NetServer server, Socket socket)
         {
@@ -52,12 +54,15 @@ namespace Cge.Server.Net
                         lock (_messages)
                             _messages.Add(message);
 
-                        //TODO: message received event
+                        if(MessageSent != null)
+                            lock (MessageSent)
+                                MessageSent(this, message);
 
                     }
                     catch (JsonReaderException ex)
                     {
-                        //TODO: handle failed json parse
+                        //TODO: better handle failed json parse
+                        Console.WriteLine($"error reading json message from '{_socket.RemoteEndPoint}': {ex.Message}");
                     }
                 }
 

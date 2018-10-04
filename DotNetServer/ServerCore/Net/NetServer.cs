@@ -13,11 +13,16 @@ namespace Cge.Server.Net
         private readonly Socket _listenerSocket;
         private readonly List<NetClient> _conntectClients = new List<NetClient>();
 
-        public NetServer(int port)
+        internal event Action<NetClient> ClientConnected;
+
+        public NetServer()
         {
             _listenerSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            _listenerSocket.Bind(new IPEndPoint(GetLocalIpAddress(), port));
+        }
 
+        internal void Start(int port)
+        {
+            _listenerSocket.Bind(new IPEndPoint(GetLocalIpAddress(), port));
             _listenerSocket.BeginAccept(OnNewConnection, this);
         }
 
@@ -41,7 +46,9 @@ namespace Cge.Server.Net
             lock(_conntectClients)
                 _conntectClients.Add(netClient);
 
-            //TODO: event new connected client
+            if(ClientConnected != null)
+                lock (ClientConnected)
+                    ClientConnected(netClient);
 
             _listenerSocket.BeginAccept(OnNewConnection, this);
         }
