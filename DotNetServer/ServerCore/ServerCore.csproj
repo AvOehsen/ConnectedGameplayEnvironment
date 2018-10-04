@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CgeServerRoot.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityManager.cs" />
+    <Compile Include="EntityModules\AbstractEntityModule.cs" />
     <Compile Include="Net\NetClient.cs" />
     <Compile Include="Net\NetServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
