@@ -14,7 +14,8 @@
 #define UNIQUE_DEVICE_ID "dummy"
 
 WiFiClient _client;
-DynamicJsonBuffer _buffer;
+DynamicJsonBuffer _buffer(512);
+String _stringBuffer;
 
 const int _modulesCount = 3;
 AbstractBaseModule *_modules[_modulesCount];
@@ -68,9 +69,9 @@ void setup()
     }
 }
 
-void loop() 
+void parseMessage(const char* json)
 {
-    JsonObject& msg = _buffer.parseObject(_client);
+    JsonObject& msg = _buffer.parseObject(json);
     if(msg.success())
     {
         Serial.println("recieved");
@@ -78,6 +79,20 @@ void loop()
         Serial.println();
 
         //TODO: pass commands to modules
+    }
+}
+
+void loop() 
+{
+    if (_client.available())
+    {
+        char c = _client.read();
+        _stringBuffer += c;
+        if (c == '\n')
+        {
+            parseMessage(_stringBuffer.c_str());
+            _stringBuffer = "";
+        }
     }
 
     for(int i=0; i < _modulesCount; i++)

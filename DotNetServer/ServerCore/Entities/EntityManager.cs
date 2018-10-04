@@ -27,6 +27,8 @@ namespace Cge.Server.Entities
 
         private void OnUnboundClientMessageSent(NetClient client, JObject message)
         {
+            Console.WriteLine(message);
+            client.Send(message);
             //see if the unique device ID is already bound to an entity
         }
     }

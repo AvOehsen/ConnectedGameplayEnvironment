@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Cge.Server.Net
 
         internal event Action<NetClient, JObject> MessageSent;
 
-        
+
         public NetClient(NetServer server, Socket socket)
         {
             _server = server;
@@ -45,7 +46,7 @@ namespace Cge.Server.Net
             _stringBuffer += Encoding.ASCII.GetString(_readBuffer, 0, bytes);
             if (_stringBuffer.Contains(Environment.NewLine))
             {
-                string[] messages = _stringBuffer.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                string[] messages = _stringBuffer.Split(new string[] {Environment.NewLine}, StringSplitOptions.None);
                 for (int i = 0; i < messages.Length - 1; i++)
                 {
                     try
@@ -54,10 +55,9 @@ namespace Cge.Server.Net
                         lock (_messages)
                             _messages.Add(message);
 
-                        if(MessageSent != null)
+                        if (MessageSent != null)
                             lock (MessageSent)
                                 MessageSent(this, message);
-
                     }
                     catch (JsonReaderException ex)
                     {
@@ -67,6 +67,23 @@ namespace Cge.Server.Net
                 }
 
                 _stringBuffer = messages.Last();
+            }
+        }
+
+        public void Send(JObject message)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (TextWriter tw = new StreamWriter(ms))
+            using (JsonWriter jw = new JsonTextWriter(tw))
+            {
+                message.WriteTo(jw);
+                jw.Flush();
+                tw.WriteLine();
+                tw.Flush();
+                var socketAsyncEventArgs = new SocketAsyncEventArgs {RemoteEndPoint = _socket.RemoteEndPoint};
+                var buffer = ms.GetBuffer();
+                socketAsyncEventArgs.SetBuffer(buffer, 0, buffer.Length);
+                _socket.SendAsync(socketAsyncEventArgs);
             }
         }
     }
