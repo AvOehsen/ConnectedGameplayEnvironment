@@ -23,6 +23,7 @@ namespace Cge.Server.Net
         internal void Start(int port)
         {
             _listenerSocket.Bind(new IPEndPoint(GetLocalIpAddress(), port));
+            _listenerSocket.Listen(10);
             _listenerSocket.BeginAccept(OnNewConnection, this);
         }
 
