@@ -7,12 +7,9 @@
 #include "modules/triggerModule.h"
 
 //TODO
-#define WIFI_SSID "<your wlan ssid>"    
-#define WIFI_PASS "<your wlan pass>"
-#define SERVER_IP "192.168.2.1"
-#define WIFI_SSID "Vault-12"    
-#define WIFI_PASS "speedygonzales"
-#define SERVER_IP "192.168.2.105"
+#define WIFI_SSID ""    
+#define WIFI_PASS ""
+#define SERVER_IP ""
 #define SERVER_PORT 11000
 #define UNIQUE_DEVICE_ID "dummy"
 
