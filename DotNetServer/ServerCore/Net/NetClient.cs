@@ -97,29 +97,17 @@ namespace Cge.Server.Net
 
         internal void Send(AbstractCommand command)
         {
-            var jsonString = JsonConvert.SerializeObject(command);
+            var jsonString = JsonConvert.SerializeObject(command) + Environment.NewLine;
             var bytes = Encoding.ASCII.GetBytes(jsonString);
 
             _socket.BeginSend(bytes, 0, bytes.Length, SocketFlags.None, OnSent, this);
-
-            /*using (MemoryStream ms = new MemoryStream())
-            using (TextWriter tw = new StreamWriter(ms))
-            using (JsonWriter jw = new JsonTextWriter(tw))
-            {
-                message.WriteTo(jw);
-                jw.Flush();
-                tw.WriteLine();
-                tw.Flush();
-                var socketAsyncEventArgs = new SocketAsyncEventArgs {RemoteEndPoint = _socket.RemoteEndPoint};
-                var buffer = ms.GetBuffer();
-                socketAsyncEventArgs.SetBuffer(buffer, 0, buffer.Length);
-                _socket.SendAsync(socketAsyncEventArgs);
-            }*/
         }
 
         private void OnSent(IAsyncResult ar)
         {
             _socket.EndSend(ar);
+
+            //TODO: error handling
         }
     }
 }
