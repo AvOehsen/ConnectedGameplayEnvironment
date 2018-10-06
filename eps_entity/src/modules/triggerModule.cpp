@@ -4,7 +4,7 @@
 void TriggerModule::Initialize(JsonObject& declaration) 
 {
     AbstractBaseModule::Initialize(declaration);
-    declaration["type"] = "button";
+    declaration["trigger_type"] = "button";
 }
 
 //int _lastUpdate;

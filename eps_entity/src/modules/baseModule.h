@@ -9,7 +9,7 @@ public:
     virtual void Update();
 
 protected:
-    virtual const char* GetIdentifier() const = 0;
+    virtual const char* GetTypeIdentifier() const = 0;
 
 private:
 

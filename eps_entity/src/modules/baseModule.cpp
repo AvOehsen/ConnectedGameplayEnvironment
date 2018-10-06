@@ -2,7 +2,7 @@
 
 void AbstractBaseModule::Initialize(JsonObject& declaration)
 {
-    declaration["identifier"] = GetIdentifier();
+    declaration["type"] = GetTypeIdentifier();
 }
 
 void AbstractBaseModule::ProcessCommand(JsonObject& command)

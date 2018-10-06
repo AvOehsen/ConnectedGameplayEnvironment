@@ -8,8 +8,5 @@ public:
     void Update();
 
 protected:
-    const char* GetIdentifier() const
-    {
-        return "trigger_module";
-    };
+    const char* GetTypeIdentifier() const { return "trigger"; };
 };

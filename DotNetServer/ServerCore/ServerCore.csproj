@@ -44,10 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuiltinModules\TriggerModule\TriggerModule.cs" />
     <Compile Include="CgeServerRoot.cs" />
+    <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Commands\EntityConfigCommand.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
     <Compile Include="EntityModules\AbstractEntityModule.cs" />
+    <Compile Include="EntityModules\EntityModuleTypeAttribute.cs" />
+    <Compile Include="EntityModules\EntityModuleFactory.cs" />
+    <Compile Include="Events\AbstractEntityEvent.cs" />
+    <Compile Include="Events\EnitityEventFactory.cs" />
+    <Compile Include="Events\EntityDefinitionEvent.cs" />
+    <Compile Include="Events\EntityEventTypeAttribute.cs" />
     <Compile Include="Net\NetClient.cs" />
     <Compile Include="Net\NetServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
