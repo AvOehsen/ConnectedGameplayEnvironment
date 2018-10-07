@@ -30,9 +30,30 @@ void defineModules()
     _modules[2] = new TriggerModule();
 }
 
-void switchBuildinLed()
+bool enableManualConfig()
 {
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    uint32_t flag = 0;
+    ESP.rtcUserMemoryRead(0, &flag, sizeof(flag));
+
+    if(flag == 0)
+    {
+        flag = 1;
+        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);
+        flag = 0;
+        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
+        digitalWrite(LED_BUILTIN, HIGH);
+
+        return false;
+    }
+    else
+    {
+        flag = 0;
+        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
+        
+        return true;
+    }
 }
 
 void onSaveConfig()
@@ -42,13 +63,14 @@ void onSaveConfig()
 
 void onEnterConfigModus(WiFiManager *mgr)
 {
-    //digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
 }
 
 void netConfig(bool force)
 {
     WiFiManager mgr;
-    mgr.setConnectTimeout(30);
+    mgr.setBreakAfterConfig(true);
+    mgr.setConnectTimeout(20);
     mgr.setSaveConfigCallback(onSaveConfig);
     mgr.setAPCallback(onEnterConfigModus);
 
@@ -84,7 +106,7 @@ void netConfig(bool force)
     else
         mgr.autoConnect(device_id);
 
-    Serial.println("wifi connection success!");
+    digitalWrite(LED_BUILTIN, HIGH);
 
     strcpy(device_id, deviceIdParam.getValue());
     strcpy(server_ip, serverIpParam.getValue());
@@ -102,32 +124,9 @@ void netConfig(bool force)
         configFile.close();
 
         Serial.println("save config success!");
-    }
-}
 
-bool enableConfigReset()
-{
-    uint32_t flag = 0;
-    ESP.rtcUserMemoryRead(0, &flag, sizeof(flag));
-
-    if(flag == 0)
-    {
-        flag = 1;
-        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
-        digitalWrite(LED_BUILTIN, LOW);
-        delay(1000);
-        flag = 0;
-        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
-        digitalWrite(LED_BUILTIN, HIGH);
-
-        return false;
-    }
-    else
-    {
-        flag = 0;
-        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
-        
-        return true;
+                        //there is an issue with some ESP modules just not connecting
+        ESP.reset();    //reset the ESP once a new config has been saved
     }
 }
 
@@ -139,7 +138,7 @@ void setup()
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
 
-    bool rebuildConfig = enableConfigReset(); 
+    bool rebuildConfig = enableManualConfig(); 
     netConfig(rebuildConfig);
 
     digitalWrite(LED_BUILTIN, HIGH);
