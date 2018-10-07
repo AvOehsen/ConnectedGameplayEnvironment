@@ -29,15 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listBox = new System.Windows.Forms.ListBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.listBox = new System.Windows.Forms.ListBox();
+            this.send_command_button = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.listBox);
+            this.groupBox1.Controls.Add(this.send_command_button);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
@@ -45,6 +47,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connected Entites";
+            // 
+            // listBox
+            // 
+            this.listBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox.FormattingEnabled = true;
+            this.listBox.Location = new System.Drawing.Point(3, 16);
+            this.listBox.Name = "listBox";
+            this.listBox.Size = new System.Drawing.Size(194, 408);
+            this.listBox.TabIndex = 0;
+            this.listBox.SelectedValueChanged += new System.EventHandler(this.listBox_SelectedValueChanged);
             // 
             // splitter1
             // 
@@ -62,15 +74,16 @@
             this.propertyGrid.Size = new System.Drawing.Size(597, 450);
             this.propertyGrid.TabIndex = 2;
             // 
-            // listBox
+            // send_command_button
             // 
-            this.listBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox.FormattingEnabled = true;
-            this.listBox.Location = new System.Drawing.Point(3, 16);
-            this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(194, 431);
-            this.listBox.TabIndex = 0;
-            this.listBox.SelectedValueChanged += new System.EventHandler(this.listBox_SelectedValueChanged);
+            this.send_command_button.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.send_command_button.Location = new System.Drawing.Point(3, 424);
+            this.send_command_button.Name = "send_command_button";
+            this.send_command_button.Size = new System.Drawing.Size(194, 23);
+            this.send_command_button.TabIndex = 1;
+            this.send_command_button.Text = "[DEBUG] Send Command";
+            this.send_command_button.UseVisualStyleBackColor = true;
+            this.send_command_button.Click += new System.EventHandler(this.send_command_button_Click);
             // 
             // MainForm
             // 
@@ -93,6 +106,7 @@
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.PropertyGrid propertyGrid;
+        private System.Windows.Forms.Button send_command_button;
     }
 }
 

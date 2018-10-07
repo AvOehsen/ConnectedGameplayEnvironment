@@ -19,5 +19,7 @@ namespace Cge.Server.EntityModules
             Owner = owner;
             ModuleIndex = moduleIndex;
         }
+
+        public virtual IEnumerable<Type> SupportedCommands { get { yield break; } }
     }
 }

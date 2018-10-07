@@ -39,5 +39,11 @@ namespace Cge.ServerWindow
         {
             propertyGrid.SelectedObject = listBox.SelectedItem;
         }
+
+        private void send_command_button_Click(object sender, EventArgs e)
+        {
+            if (listBox.SelectedItem is Entity entity)
+                new SendCommandDialog(entity).ShowDialog();
+        }
     }
 }

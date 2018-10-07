@@ -9,6 +9,7 @@
 
 #include "modules/baseModule.h"
 #include "modules/triggerModule.h"
+#include "modules/blinkModule.h"
 
 #define SERVER_PORT 11000
 
@@ -25,7 +26,7 @@ AbstractBaseModule *_modules[_modulesCount];
 
 void defineModules()
 {
-    _modules[0] = new TriggerModule();
+    _modules[0] = new BlinkModule(LED_BUILTIN);
     _modules[1] = new TriggerModule();
     _modules[2] = new TriggerModule();
 }
@@ -180,7 +181,9 @@ void parseMessage(const char* json)
         msg.printTo(Serial);
         Serial.println();
 
-        //TODO: pass commands to modules
+        //TODO: filter commands per module ?
+        for (int i = 0; i < _modulesCount; i++)
+            _modules[i]->ProcessCommand(msg); 
     }
 }
 

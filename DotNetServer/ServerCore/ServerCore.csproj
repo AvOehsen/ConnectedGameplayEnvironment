@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuiltinModules\BlinkModule\BlinkCommand.cs" />
+    <Compile Include="BuiltinModules\BlinkModule\BlinkModule.cs" />
     <Compile Include="BuiltinModules\TriggerModule\TriggerModule.cs" />
     <Compile Include="CgeServerRoot.cs" />
     <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Commands\AbstractModuleCommand.cs" />
     <Compile Include="Commands\EntityConfigCommand.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityManager.cs" />
