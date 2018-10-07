@@ -74,15 +74,20 @@ namespace Cge.Server.Net
                 {
                     try
                     {
-                        var message = JObject.Parse(messages[i]);
-                        var evt = EntityEventFactory.BuildEvent(message);
-
-                        lock (_events)
-                            _events.Add(evt);
-
-                        if (EntityEventSent != null)
-                            lock (EntityEventSent)
-                                EntityEventSent(this, evt);
+                        if (messages[i].StartsWith("["))
+                        {
+                            var array = JArray.Parse(messages[i]);
+                            foreach (var token in array)
+                            {
+                                var message = token.ToObject<JObject>();
+                                ProcessObject(message);
+                            }
+                        }
+                        else
+                        {
+                            var message = JObject.Parse(messages[i]);
+                            ProcessObject(message);
+                        }
                     }
                     catch (JsonException ex)
                     {
@@ -93,6 +98,18 @@ namespace Cge.Server.Net
 
                 _stringBuffer = messages.Last();
             }
+        }
+
+        private void ProcessObject(JObject message)
+        {
+            var evt = EntityEventFactory.BuildEvent(message);
+
+            lock (_events)
+                _events.Add(evt);
+
+            if (EntityEventSent != null)
+                lock (EntityEventSent)
+                    EntityEventSent(this, evt);
         }
 
         internal void Send(AbstractCommand command)

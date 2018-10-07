@@ -16,6 +16,9 @@ void BlinkModule::ProcessCommand(JsonObject& command)
             digitalWrite(m_iLedPin, LOW);
         else if(state == 1)
             digitalWrite(m_iLedPin, HIGH);
+
+        JsonObject& evt = SendEvent("wohoo");
+        evt["value"] = "Yehaa!";
     }
 }
 

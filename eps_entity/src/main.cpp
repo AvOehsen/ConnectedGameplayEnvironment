@@ -165,11 +165,10 @@ void setup()
         obj.printTo(_client);
         _client.println();
     
-        Serial.println("sent:");
+        Serial.print("[sent] ");
         obj.printTo(Serial);
         Serial.println();
     }
-
 }
 
 void parseMessage(const char* json)
@@ -177,7 +176,7 @@ void parseMessage(const char* json)
     JsonObject& msg = _buffer.parseObject(json);
     if(msg.success())
     {
-        Serial.println("recieved");
+        Serial.print("[read] ");
         msg.printTo(Serial);
         Serial.println();
 
@@ -189,6 +188,11 @@ void parseMessage(const char* json)
 
 void loop() 
 {
+    _buffer.clear();
+    JsonArray& eventContext = _buffer.createArray();
+    for(int i=0; i < _modulesCount; i++)
+        _modules[i]->SetEventContext(eventContext);
+
     if (_client.available())
     {
         char c = _client.read();
@@ -203,6 +207,15 @@ void loop()
     for(int i=0; i < _modulesCount; i++)
         _modules[i]->Update();
     
+    if(eventContext.size() > 0)
+    {
+        eventContext.printTo(_client);
+        _client.println();
+
+        Serial.print("[sent] ");
+        eventContext.printTo(Serial);
+        Serial.println();
+    }
     //TODO: get and send events
 
 }
