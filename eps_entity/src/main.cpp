@@ -36,7 +36,14 @@ bool enableManualConfig()
     uint32_t flag = 0;
     ESP.rtcUserMemoryRead(0, &flag, sizeof(flag));
 
-    if(flag == 0)
+    if(flag == 1)
+    {
+        flag = 0;
+        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
+        
+        return true;
+    }
+    else
     {
         flag = 1;
         ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
@@ -47,13 +54,6 @@ bool enableManualConfig()
         digitalWrite(LED_BUILTIN, HIGH);
 
         return false;
-    }
-    else
-    {
-        flag = 0;
-        ESP.rtcUserMemoryWrite(0, &flag, sizeof(flag));
-        
-        return true;
     }
 }
 
