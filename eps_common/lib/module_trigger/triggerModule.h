@@ -1,4 +1,4 @@
-#include "baseModule.h"
+#include <baseModule.h>
 
 class TriggerModule : public AbstractBaseModule
 {

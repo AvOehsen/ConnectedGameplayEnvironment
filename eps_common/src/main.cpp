@@ -7,9 +7,9 @@
 #include <Esp.h>
 
 
-#include "modules/baseModule.h"
-#include "modules/triggerModule.h"
-#include "modules/blinkModule.h"
+#include <baseModule.h>
+#include <blinkModule.h>
+#include <triggerModule.h>
 
 #define SERVER_PORT 11000
 
