@@ -4,13 +4,14 @@
 #include <baseModule.h>
 #include <blinkModule.h>
 #include <irReceiverModule.h>
+#include <irShooterModule.h>
 #include <triggerModule.h>
 
 AbstractBaseModule *modules[] = 
 { 
     new BlinkModule(LED_BUILTIN),
-    new IrReceiverModule(D3),
-    new TriggerModule()
+    new IrShooterModule(D5, D1, /*LED_BUILTIN*/ D6, D8),
+    new IrReceiverModule(D3)
 };
 
 CgeRunner runner(modules, 3);

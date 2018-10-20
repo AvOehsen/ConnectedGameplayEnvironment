@@ -28,11 +28,16 @@ void IrReceiverModule::Update()
 {
     decode_results results;
     if(m_pIRecv->decode(&results))
-    {
-        //TODO check if result is valid cge format!
+    {       
+        //if((byte)(results.value) == currentGame)
+        //TODO: only send if game ID is current game
 
         JsonObject& event = SendEvent(EVENT_RECEIVED);
-        event["payload"] = uint64ToString(results.value, 10);
+        event["payload"] = (uint32_t)results.value;
+        event["game_id"] = (byte)(results.value);
+        event["shooter_id"] = (byte)(results.value >> 8);
+        event["salve_id"] = (byte)(results.value >> 16);
+        event["shot_id"] = (byte)(results.value >> 24);
 
         m_pIRecv->resume();
     }

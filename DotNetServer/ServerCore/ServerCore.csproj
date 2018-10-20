@@ -49,6 +49,8 @@
     <Compile Include="BuiltinModules\IrReceiver\DisableIrCommand.cs" />
     <Compile Include="BuiltinModules\IrReceiver\EnableIrCommand.cs" />
     <Compile Include="BuiltinModules\IrReceiver\IrReceiverModule.cs" />
+    <Compile Include="BuiltinModules\IrShooter\IrShooterModule.cs" />
+    <Compile Include="BuiltinModules\IrShooter\ShooterConfigCommand.cs" />
     <Compile Include="BuiltinModules\TriggerModule\TriggerModule.cs" />
     <Compile Include="CgeServerRoot.cs" />
     <Compile Include="Commands\AbstractCommand.cs" />
